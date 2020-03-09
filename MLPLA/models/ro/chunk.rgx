@@ -1,0 +1,141 @@
+# Chunk definitions for Romanian (to be parsed with rxgram.pm)
+#
+# Radu ION, (C) ICIA 2005
+#
+# ver 0.1, created Radu ION
+# ver 0.2, 29-Mar-05, Radu ION: am adaugat negatia la grupul verbal.
+# ver 0.3, 15-Apr-05, Radu ION: am adaugat 'lui' la NP
+# ver 0.4, 18-Apr-05, Radu ION: am adaugat 'VP' la adjective ...
+# ver 0.5, 18-Apr-05, Radu ION: am adaugat 'a,ai,al,ale [lui]' la NP-uri ...
+# ver 1.0, 09-May-05, Radu ION, a refacut totul.
+# ver 1.1, 17-May-05, Radu ION: am adaugat Y la Np.
+# ver 1.2, 16-Jun-05, Radu ION, am adaugat PSS la Np.
+# ver 1.3, 12-Jan-06, Radu ION, am adugat VPSF, ...
+# ver 1.4, CLEF 2005 VP nu sunt si adjective ...
+
+#This is a comment.
+#This grammar generates PERL regular expressions.
+#This file has 2 sections: NONTERM: (non-terminals) and RULES (rules of grammar)
+
+#Please keep in mind that the rules ARE NOT recursive !!
+#You cannot have something like A -> A B or A -> B and B -> A
+#You cannot have void productions : A -> epsilon
+
+#White space is the separator. You must use it to split up the TERM/NONTERM.
+#Terminals are ALWAYS written in between '...'
+#The start symbol(s) is(are) specified with a STARTSYM: declaration.
+#The PAIR keyword: specifies the nonterminals that appear in pairs. Like parantheses here.
+#The NONTERM section may contain 0,1 or more PAIR: lines for every pair of tags.
+#META nonterminals are used in the underlying language (e.g. PERL regexes) so they are not to be compiled for themselves.
+
+#IMPORTANT1: use as many | as you can: as the number of productions increases, the number of terminal strings derived from them increases exponentially !!
+#IMPORTANT2: when using | take care of sorting the nonterminals from the longest production to the shortest one ... so that longer matches are given a chance !!
+
+#BUGS
+#1. Nu pot sa pun whitespace intre ''
+
+NONTERM:
+Np1
+Np2
+Np21
+Np3
+Np31
+Np311
+Np33
+Np34
+Np
+Pp
+Cc
+Cc2
+Art
+Art2
+Part
+Prep
+Poss
+Pron
+Pron2
+Pron3
+Noun
+NounSeq
+NounNomAcc
+NounGenDat
+NounGenPos
+NounGenPosTwo
+NounVoc
+NounUnk
+NpAll
+NounPlus
+Not
+Verb
+Adje
+Adve
+Mod
+Mod1
+ModVerb
+Ap
+Vp
+META: ( ) + * ? |
+STARTSYM: Np Pp Ap Vp
+PAIR: OPEN:( CLOSE:)
+
+#One rule per line !!
+RULES:
+#Lexicon
+( -> '(?:'
+) -> ')'
++ -> '+'
+* -> '*'
+? -> '?'
+| -> '|'
+
+Noun -> ( '<NP>' | '<NN>' | '<NPN>' | '<NPOY>' | '<NPRY>' | '<NPVY>' | '<NSN>' | '<NSON>' | '<NSOY>' | '<NSRN>' | '<NSRY>' | '<NSVN>' | '<NSVY>' | '<NSY>' | '<M>' | '<Y>' )
+NounNomAcc -> ( '<NPN>' | '<NPRY>' | '<NSN>' | '<NSRN>' | '<NSRY>' )
+NounGenDat -> ( '<NPOY>' | '<NSN>' | '<NPN>' | '<NSON>' | '<NSOY>' )
+NounUnk -> ( '<NP>' | '<NN>' | '<M>' | '<Y>' | '<NSY>' )
+NounVoc -> ( '<NPOY>' | '<NPVY>' | '<NSRN>' | '<NSVN>' | '<NSVY>' )
+Adje -> ( '<A>' | '<AN>' | '<APN>' | '<APON>' | '<APOY>' | '<APRY>' | '<ASN>' | '<ASON>' | '<ASOY>' | '<ASRY>' | '<ASVN>' | '<ASVY>' )
+Adve -> ( '<R>' )
+Prep -> ( '<S>' )
+Part -> ( '<QN>' | '<QS>' )
+Poss -> ( '<PSS>' | '<PSP>' | '<PS>' )
+Art -> ( '<TP>' | '<TPO>' | '<TPR>' | '<TS>' | '<TSO>' | '<TSR>' | '<DMPO>' | '<DMPR>' | '<DMSO>' | '<DMSR>' | '<RELO>' | '<RELR>' | '<PI>' | '<PSS>' | '<PSP>' | '<PS>' )
+Art2 -> ( '<TP>' | '<TPO>' | '<TPR>' | '<TS>' | '<TSO>' | '<TSR>' )
+Pron -> ( '<PI>' | '<PPPD>' | '<PPPO>' | '<PPS>' | '<PPSD>' | '<PPSO>' | '<PSP>' | '<PSS>' | '<PSSO>' | '<DMPO>' | '<DMPR>' | '<DMSO>' | '<DMSR>' )
+Pron2 -> ( '<PP>' | '<PPP>' | '<PPPA>' | '<PPPD>' | '<PPPO>' | '<PPPR>' | '<PPS>' | '<PPSA>' | '<PPSD>' | '<PPSN>' | '<PPSO>' | '<PPSR>' | '<PSP>' | '<PSS>' | '<PSSO>' | '<PSSR>' | '<PXA>' | '<PXD>' )
+Pron3 -> ( '<PPPD>' | '<PPPO>' | '<PPSD>' | '<PPSO>' )
+Cc -> ( '<C>' | '<CR>' )
+Cc2 -> ( '<C>' | '<CR>' | '<COMMA>' )
+Verb -> ( '<V1>' | '<V2>' | '<V3>' | '<VA>' | '<VA1>' | '<VA1P>' | '<VA1S>' | '<VA2P>' | '<VA2S>' | '<VA3>' | '<VA3P>' | '<VA3S>' | '<VG>' | '<VN>' | '<VP>' | '<VPSF>' | '<VPPF>' | '<VPSM>' | '<VPPM>' | '<QF>' )
+Not -> ( '<QZ>' )
+
+#Grammar
+#NPs
+Mod1 -> ( ( Adve? ( Cc Adve )* Adje )+ )
+Mod -> ( ( Adje Prep? Adve+ ) | ( Prep Adve+ ) | ( Mod1 ( Cc Mod1 )* ) )
+NounPlus -> ( ( NounUnk* NounNomAcc NounUnk* ) | ( NounUnk+ ) )
+NounSeq -> ( ( NounPlus NounGenDat ( Cc NounGenDat )+ ) | ( NounPlus ( Cc NounPlus )+ ) | ( NounGenDat ( Cc NounGenDat )+ ) | ( NounPlus NounGenDat* ) | NounGenDat+ | NounVoc )
+NounGenPos -> ( ( NounUnk | NounGenDat )+ )
+NounGenPosTwo -> ( NounGenPos ( Cc NounGenPos )+ | NounGenPos+ )
+Np1 -> Art* Mod* NounSeq Poss?
+Np2 -> Art* Mod* NounSeq Mod* NounGenPosTwo?
+Np21 -> Mod* NounSeq Art2 Mod
+Np3 -> Art* Mod* NounSeq Mod* Art2+ NounGenPosTwo Mod*
+Np33 -> Art* Mod* NounSeq Mod* Art2+ Poss
+Np34 -> Art* Mod* NounSeq Mod* Poss
+Np31 -> Art* Mod* NounSeq Mod* Art2+ NounGenPosTwo Art2 Mod
+Np311 -> Art* Mod* NounSeq Mod* Art2+ Mod* NounGenPosTwo Mod* ( Art2+ Mod* NounGenPosTwo Mod* )*
+#Am sortat neterminalele de la productia cea mai lunga la cea mai scurta !
+#Sau ma rog, ... aproape ! :)
+NpAll -> ( Np311 | Np33 | Np34 | Np31 | Np3 | Np21 | Np2 | Np1 )
+#Comma is ambiguous ...
+Np -> ( NpAll ( Cc NpAll )* )
+
+#PPs
+Pp -> Prep+ Np
+
+#Adjectival/Adverbial phrases
+Ap -> ( Prep? ( Adje | Adve )+ )
+
+#Verbal phrases
+ModVerb -> ( ( Prep? Adve ) | Adje )
+Vp -> ( Pron3? Part* Not? Pron2? Verb+ ModVerb? )

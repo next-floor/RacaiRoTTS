@@ -1,0 +1,354 @@
+# NER definitions for Romanian (to be parsed with rxgram.pm)
+#
+#This is a comment.
+#This grammar generates PERL regular expressions.
+#This file has 2 sections: NONTERM: (non-terminals) and RULES (rules of grammar)
+
+#Please keep in mind that the rules ARE NOT recursive !!
+#You cannot have something like A -> A B or A -> B and B -> A
+#You cannot have void productions : A -> epsilon
+
+#White space is the separator. You must use it to split up the TERM/NONTERM.
+#Terminals are ALWAYS written in between '...'
+#The start symbol(s) is(are) specified with a STARTSYM: declaration.
+#The PAIR keyword: specifies the nonterminals that appear in pairs. Like parantheses here.
+#The NONTERM section may contain 0,1 or more PAIR: lines for every pair of tags.
+#META nonterminals are used in the underlying language (e.g. PERL regexes) so they are not to be compiled for themselves.
+
+#BUGS
+#1. Nu pot sa pun whitespace intre ''
+
+NONTERM:
+Integer
+Real
+Percent
+Num1
+Num2
+Num3
+Num4
+Num5
+Num6
+Num7
+Num8
+Num9
+Num10
+Num11
+Num12
+Num13
+Num14
+Num15
+Num16
+Num17
+Num18
+Num19
+Num20
+Num30
+Num40
+Num50
+Num60
+Num70
+Num80
+Num90
+Num2zeroes
+Num3zeroes
+Num6zeroes
+Num12zeroes
+StringNumeral1
+StringNumeral11
+StringNumeral2
+StringNumeral
+StringNumeralOUN
+Currency
+CurrencyDe
+DA1
+DA2
+Month1
+Month2
+Month3
+Month4
+Month5
+Month6
+Month7
+Month8
+Month9
+Month10
+Month11
+Month12
+WeekDay1
+WeekDay2
+WeekDay3
+WeekDay4
+WeekDay5
+WeekDay6
+WeekDay7
+Month
+MonthInt
+Year
+Day
+WeekDay
+DateLong1
+DateLong11
+DateLong2
+DateLong3
+DateLong4
+DateLong
+DateSep
+DateShort
+DateS
+Hour
+MinSec
+Time
+Time2
+GenericNo
+AmountTime
+AmountDist
+AmountArea
+AmountMass
+AmountVolume
+NameString
+Initial
+PersonName1
+PersonName2
+Name3
+Name4
+Male
+MaleTitle
+Female
+FemaleTitle
+Person
+PersonTitle1
+PersonTitle2
+PersonTitleA
+PersonTitle
+Junior
+Abbrev
+AbbrevChr
+RDigit
+RInterval10
+RInterval20
+RInterval30
+RInterval40
+RInterval50
+RInterval60
+RInterval70
+RInterval80
+RInterval90
+RInterval100
+NameAddr
+AbbrStreet
+Institution
+Street
+City
+State
+ZipCode
+Address1
+Address2
+URLChars
+Domain
+User
+URLPath
+LMarker
+RMarker
+ECD
+META: ( ) + * ? |
+STARTSYM: IntegerS RealS PercentS MoneyAmountS DateS TimeS AmountUnitTimeS AmountUnitDistS AmountUnitAreaS AmountUnitMassS AmountUnitVolumeS MaleS FemaleS PersonS JuniorS AbbrevS NameS RomanS StringNumeralS EMailS URLS IntegerIntS RealIntS PercentIntS DateIntS MoneyAmountIntS ECDS
+PAIR: OPEN:( CLOSE:)
+
+#One rule per line !!
+RULES:
+#Lexicon
+( -> '(?:'
+) -> ')'
++ -> '+'
+* -> '*'
+? -> '?'
+| -> '|'
+#Pentru romana ';' nu poate fi right marker ... ca face parte din diacritic.
+LMarker -> ( '(^|\s|\(|\[|\{|\"|\'|,|\.|:|\?|\!|\/)' )
+RMarker -> ( '($|\s|\)|\]|\}|\"|\'|,|\.|:|;|\?|\!|\/)' )
+
+#Integer number ...
+Integer -> ( '[0-9]+(?:[\.][0-9]+)+' | '[0-9]+(?:\s+[0-9]+)+' | '[0-9]+' )
+#ATENTIE: asa trebuie scrisa orice regula de NER !!. Altfel nu merge !!
+IntegerS -> LMarker '(' Integer ')' RMarker
+IntegerIntS -> LMarker '(' Integer '\s?-\s?' Integer ')' RMarker
+#Real number ...
+Real -> ( Integer '[,][0-9]+' )
+RealS -> LMarker '(' Real ')' RMarker
+RealIntS -> LMarker '(' Real '\s?-\s?' Real ')' RMarker
+#Percent ...
+Percent -> ( ( Integer | Real ) '\s*%' )
+PercentS -> LMarker '(' Percent ')' RMarker
+PercentIntS -> LMarker '(' Percent '\s?-\s?' Percent ')' RMarker
+
+#Cardinals: one thousand two hundred and thirty
+Num1 -> ( '[Uu][Nn][uU]' )
+Num2 -> ( '[Dd][oO][Ii]' | '[Dd][oO][Uu]&[Aa]breve;' )
+Num3 -> ( '[tT][rR][eE][iI]' )
+Num4 -> ( '[pP][aA][Tt][rR][uU]' )
+Num5 -> ( '[Cc][iI][nN][cC][iI]' )
+Num6 -> ( '&[sS]cedil;[Aa][sS][eE]' )
+Num7 -> ( '&[sS]cedil;[Aa][pP][Tt][eE]' )
+Num8 -> ( '[oO][pP][Tt]' )
+Num9 -> ( '[nN][oU][uU]&[Aa]breve;' )
+Num10 -> ( '[Zz][eE][Cc][eE]' )
+Num11 -> ( '[uU][nN][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[uU][nN]&[Ss]cedil;[pP][Ee]' )
+Num12 -> ( '[Dd][oO][iI][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[dD][oO][iI]&[Ss]cedil;[pP][Ee]' )
+Num13 -> ( '[tT][rR][Ee][iI][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[tT][rR][Ee][iI]&[Ss]cedil;[pP][Ee]' )
+Num14 -> ( '[pP][Aa][Ii][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[pP][aA][iI]&[Ss]cedil;[pP][Ee]' )
+Num15 -> ( '[Cc][iI][nN][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[Cc][iI][nN][cC][iI][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[cC][iI][nN]&[Ss]cedil;[pP][Ee]' )
+Num16 -> ( '&[sS]cedil;[Aa][Ii][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '&[sS]cedil;[Aa][Ii]&[Ss]cedil;[pP][Ee]' )
+Num17 -> ( '&[sS]cedil;[Aa][pP][Tt][eE][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '&[sS]cedil;[Aa][pP][Tt][eE]&[Ss]cedil;[pP][Ee]' )
+Num18 -> ( '[oO][pP][Tt][Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[oO][pP][Tt]&[Ss]cedil;[pP][Ee]' )
+Num19 -> ( '[Nn][oO][uU]&[Aa]breve;[Ss][pP][Rr][eE][Zz][eE][Cc][eE]' | '[Nn][oO][uU]&[Aa]breve;&[Ss]cedil;[pP][Ee]' )
+Num20 -> ( '[dD][oO][uU]&[Aa]breve;[zZ][Ee][Cc][iI]' )
+Num30 -> ( '[tT][Rr][eE][iI][zZ][Ee][Cc][iI]' )
+Num40 -> ( '[pP][Aa][Tt][Rr][uU][zZ][Ee][Cc][iI]' )
+Num50 -> ( '[cC][iI][nN][cC][iI][zZ][Ee][Cc][iI]' | '[cC][iI][nN][zZ][Ee][Cc][iI]' )
+Num60 -> ( '&[sS]cedil;[Aa][Ii][zZ][Ee][Cc][iI]' )
+Num70 -> ( '&[sS]cedil;[Aa][pP][Tt][eE][zZ][Ee][Cc][iI]' )
+Num80 -> ( '[oO][pP][Tt][zZ][Ee][Cc][iI]' )
+Num90 -> ( '[Nn][oO][uU]&[Aa]breve;[zZ][Ee][Cc][iI]' )
+Num2zeroes -> ( '[Ss][uU][Tt]&[Aa]breve;' | '[Ss][uU][Tt][Ee]' )
+Num3zeroes -> ( '[Mm][iI][Ee]' | '[Mm][iI][iI]' )
+Num6zeroes -> ( '[mM][Ii][Ll][iI][oO][Nn]' | '[mM][Ii][Ll][iI][oO][Aa][Nn][Ee]' )
+Num12zeroes -> ( '[mM][iI][lL][iI][aA][rR][Dd]' | '[mM][iI][lL][iI][aA][rR][Dd][Ee]' )
+
+StringNumeral1 -> ( Num1 | Num2 | Num3 | Num4 | Num5 | Num6 | Num7 | Num8 | Num9 | Num10 | Num11 | Num12 | Num13 | Num14 | Num15 | Num16 | Num17 | Num18 | Num19 )
+StringNumeral11 -> ( Num2 | Num3 | Num4 | Num5 | Num6 | Num7 | Num8 | Num9 | Num10 | Num11 | Num12 | Num13 | Num14 | Num15 | Num16 | Num17 | Num18 | Num19 )
+StringNumeral2 -> ( Num10 | Num20 | Num30 | Num40 | Num50 | Num60 | Num70 | Num80 | Num90 | Num2zeroes | Num3zeroes | Num6zeroes | Num12zeroes )
+StringNumeralOUN -> ( '[oO]\s(?:[Ss][uU][tT]&[aA]breve;|[Mm][iI][eE])' | '[uU][Nn]\s(?:[mM][iI][lL][Ii][oO][Nn]|[mM][iI][lL][Ii][aA][Rr][dD])' )
+StringNumeral -> ( ( ( StringNumeralOUN | StringNumeral1 | StringNumeral2 ) ( ( '(?:\s(?:&scedil;i\s|de\s)?)' ) ( StringNumeral1 | StringNumeral2 ) )+ ) | ( StringNumeral11 | StringNumeral2 ) )
+StringNumeralS -> LMarker '(' StringNumeral ')' RMarker
+
+#Amount of money
+Currency -> ( '\$' | 'EUR' | 'ROL' | 'RON' | 'CHF' | 'HUF' | 'GBP' | 'USD' )
+CurrencyDe -> ( 'dolari' | 'euro' | 'lei' | 'lire' | 'coroane' | 'yeni' | 'guldeni' | 'm&abreve;rci' | 'forin&tcedil;i' | 'tolari' | 'leva' | 'zlo&tcedil;i' | 'franci' )
+DA1 -> ( ( Real | Integer | StringNumeral ) '\s*' ( Currency | CurrencyDe ) )
+DA2 -> ( ( Real | Integer | StringNumeral ) '\sde\s' ( Currency | CurrencyDe ) )
+MoneyAmountS -> LMarker '(' DA2 | DA1 ')' RMarker
+MoneyAmountIntS -> LMarker ( DA2 | DA1 ) '\s?-\s?' ( DA2 | DA1 ) RMarker
+
+#Dates
+Month1 -> ( '[Ii][aA][nN][uU][aA][rR][iI][Ee]' | '[iI][aA][nN]\.?' )
+Month2 -> ( '[Ff][eE][bB][rR][uU][aA][rR][iI][Ee]' | '[Ff][eE][bB][Rr]?\.?' )
+Month3 -> ( '[Mm][aA][rR][Tt][iI][Ee]' | '[Mm][aA][rR]\.?' )
+Month4 -> ( '[Aa][pP][rR][iI][lL][iI][Ee]' | '[Aa][pP][rR]\.?' )
+Month5 -> ( '[Mm][aA][Ii]' )
+Month6 -> ( '[Ii][uU][nN][iI][Ee]' | '[Ii][uU][nN]\.?' )
+Month7 -> ( '[Ii][uU][lL][iI][Ee]' | '[Ii][uU][lL]\.?' )
+Month8 -> ( '[Aa][uU][gG][uU][sS][tT]' | '[Aa][uU][gG]\.?' )
+Month9 -> ( '[Ss][eE][pP][tT][eE][mM][bB][rR][Ii][Ee]' | '[Ss][eE][pP]\.?' | '[Ss][eE][pP][tT]\.?' )
+Month10 -> ( '[Oo][cC][tT][oO][mM][bB][rR][Ii][Ee]' | '[Oo][cC][tT]\.?' )
+Month11 -> ( '[Nn][oO][iI][eE][mM][bB][rR][Ii][Ee]' | '[Nn][oO][vV]\.?' )
+Month12 -> ( 'D[eE][cC][eE][mM][bB][rR][iI][eE]' | '[dD][eE][cC]\.?' )
+WeekDay1 -> ( '[lL][uU][nN][iI]' )
+WeekDay2 -> ( '[mM][aA][rR]&[tT]cedil;[iI]' )
+WeekDay3 -> ( '[mM][iI][eE][rR][cC][uU][rR][iI]' )
+WeekDay4 -> ( '[jJ][oO][iI]' )
+WeekDay5 -> ( '[vV][iI][nN][eE][rR][iI]' )
+WeekDay6 -> ( '[Ss]&[aA]circ;[mM][bB]&[aA]breve;[tT]&[Aa]breve;' )
+WeekDay7 -> ( '[Dd][uU][mM][iI][nN][iI][Cc]&[Aa]breve;' )
+Month -> ( Month1 | Month2 | Month3 | Month4 | Month5 | Month6 | Month7 | Month8 | Month9 | Month10 | Month11 | Month12 )
+MonthInt -> ( '0?1' | '0?2' | '0?3' | '0?4' | '0?5' | '0?6' | '0?7' | '0?8' | '0?9' | '10' | '11' | '12' )
+Year -> ( '1[0-9][0-9][0-9]' | '20[0-9][0-9]' | '\'[0-9][0-9]' )
+Day -> ( '0?1' | '0?2' | '0?3' | '0?4' | '0?5' | '0?6' | '0?7' | '0?8' | '0?9' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22' | '23' | '24' | '25' | '26' | '27' | '28' | '29' | '30' | '31' )
+WeekDay -> ( WeekDay1 | WeekDay2 | WeekDay3 | WeekDay4 | WeekDay5 | WeekDay6 | WeekDay7 )
+
+#Luni, 5 iunie 2006
+#Luni, 5 iunie
+DateLong1 -> ( WeekDay '\s?,?\s' Day '\s' Month '\s' Year )
+DateLong11 -> ( WeekDay '\s?,?\s' Day '\s' Month )
+#6 iunie 2006
+DateLong2 -> ( Day '\s' Month '\s' Year )
+#iunie 2006
+DateLong3 -> ( Month '\s' Year )
+#21 mai
+DateLong4 -> ( Day '\s' Month )
+
+DateLong -> ( DateLong1 | DateLong11 | DateLong2 | DateLong3 | DateLong4 )
+
+#06-06-2006
+DateSep -> ( '\.' | '\/' | '-' )
+DateShort -> ( ( Day DateSep MonthInt DateSep Year ) | ( Year DateSep MonthInt DateSep Day ) )
+
+DateS -> LMarker '(' DateLong | DateShort | Year ')' RMarker
+DateIntS -> LMarker '(' ( DateLong | DateShort | Year ) '\s?-\s?' ( DateLong | DateShort | Year ) ')' RMarker
+
+#Time
+Hour -> ( '0?0' | '0?1' | '0?2' | '0?3' | '0?4' | '0?5' | '0?6' | '0?7' | '0?8' | '0?9' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22' | '23' )
+MinSec -> ( '00' | '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22' | '23' | '24' | '25' | '26' | '27' | '28' | '29' | '30' | '31' | '32' | '33' | '34' | '35' | '36' | '37' | '38' | '39' | '40' | '41' | '42' | '43' | '44' | '45' | '46' | '47' | '48' | '49' | '50' | '51' | '52' | '53' | '54' | '55' | '56' | '57' | '58' | '59' )
+Time -> ( Hour ( '[:\.]' MinSec )? ( '[:\.]' MinSec )? '\s?' ( '[aA]\.[mM]\.' | '[aA][mM]' | 'p\.[mM]\.' | '[pP][mM]' ) )
+Time2 -> ( Hour '[:\.]' MinSec ( '[:\.]' MinSec )? )
+TimeS -> LMarker '(' Time | Time2 ')' RMarker
+
+#Amounts of different things ...
+GenericNo -> ( Integer | Real )
+AmountTime -> ( '(?:an|ani)' | '(?:minut|minute|min\.?)' | '(?:ore|or&abreve;|h\.?)' | '(?:secunde|secund&abreve;|sec\.?)' | '(?:luni|lun&abreve;)' | '(?:zi|zile)' )
+AmountDist -> ( '(?:inci|in\.)' | '(?:mile|mil&abreve;)' | '(?:metri|metru|m\.?)' | '(?:kilometri|kilometru|km\.?)' | '(?:centimetri|centimetru|cm\.?)' | '(?:milimetri|milimetru|mm\.?)' )
+AmountArea -> ( '(?:hectare|hectar|ha\.?)' | '(?:acri|acru)' | '(?:metri|kilometri|centimetri|milimetri)(?:\s|-)p&abreve;tra&tcedil;i' )
+AmountMass -> ( '(?:grame|gram|g\.?)' | '(?:kilograme|kilogram|kg\.?)' | '(?:tone|ton&abreve;|t\.?)' | '(?:miligrame|miligram|mg\.?)' )
+AmountVolume -> ( '(?:litri|litru|l\.?)' | '(?:centimetri(?:-|\s)cubi)|(?:centimetru(?:-|\s)cub|cc\.?)' )
+AmountUnitTimeS -> LMarker '(' GenericNo '\s*' AmountTime ')' RMarker
+AmountUnitDistS -> LMarker '(' GenericNo '\s*' AmountDist ')' RMarker
+AmountUnitAreaS -> LMarker '(' GenericNo '\s*' AmountArea ')' RMarker
+AmountUnitMassS -> LMarker '(' GenericNo '\s*' AmountMass ')' RMarker
+AmountUnitVolumeS -> LMarker '(' GenericNo '\s*' AmountVolume ')' RMarker
+
+#Abbreviations and codes ...
+AbbrevChr -> ( '[A-Z]' | '&[A-Z][a-z]{1,5};' )
+Abbrev -> ( AbbrevChr '\.' ( '\s?' AbbrevChr '\.' )* )
+AbbrevS -> LMarker '(' Abbrev ')' RMarker
+
+#Names
+NameString -> ( '&[A-Z][a-z]{1,8};(?:(?:&[a-z]{1,8};)|[a-z])+' | '[A-Z](?:(?:&[a-z]{1,8};)|[a-z])+' | '[A-Z][a-z]+' | '[A-Z]\'[A-Z][a-z]+' | '[A-Z][a-z]+[A-Z][a-z]+' | '[A-Z]+' )
+Initial -> ( '[A-Z]\.?' )
+#Not safe
+PersonName1 -> ( NameString '\s' Initial ( '-' | '\s' ) NameString )
+#Not safe
+PersonName2 -> ( Initial ( '\s?' Initial )? ( '\s?' Initial )? '\s' NameString )
+Name3 -> ( NameString ( '\s' NameString )+ )
+MaleTitle -> ( '[dD]omnul(?:(?:ui)|(?:e))?' | '[dD]-?[lL](?:[uU][iI])?\.?' )
+Male -> ( MaleTitle '\s' ( PersonTitle '\s' )? ( PersonName1 | PersonName2 | Name3 | NameString ) )
+FemaleTitle -> ( '[dD]oamn(?:(?:a)|(?:ei)|(?:&abreve;))?' | '[dD]-?[nN](?:[aA]|[eE][iI])\.?' | '[dD]-?[rR](?:[aA]|[eE][iI])\.?' )
+Female -> ( FemaleTitle '\s' ( PersonTitle '\s' )? ( PersonName1 | PersonName2 | Name3 | NameString ) )
+PersonTitle1 -> ( '[Gg][eE][nN]\.?' | '[cC][oO][lL]\.?' | '[Ll][tT]\.?' | '[Dd][rR]\.?' | '[Pp][rR][oO][fF]\.?' | '[iI][nN][gG]\.?' | '[aA][rR][hH]\.?' | '[mM][aA][tT]\.?' | '[cC][oO][nN][fF]\.?' | '[uU][nN][Ii][vV]\.?' | '[lL][Ee][Cc][Tt]\.?' )
+PersonTitle2 -> ( '[cC]uv\.' | '[Ss]f\.' | '[Mm]c\.' | '[Aa]p\.' | '[Gg]-ral' | '[Aa][Cc][aA][dD]\.?' | '[Ee][cC]\.?' | '[dD][oO][cC]\.' )
+PersonTitleA -> ( PersonTitle1 | PersonTitle2 )
+PersonTitle -> ( PersonTitleA ( '\s?' PersonTitleA )* )
+Person -> ( PersonTitle '\s' ( PersonName1 | PersonName2 | Name3 | NameString ) )
+Junior -> ( ( PersonName1 | PersonName2 | Name3 ) ',?\s[jJ]r\.?' )
+MaleS -> LMarker '(' Male ')' RMarker
+FemaleS -> LMarker '(' Female ')' RMarker
+PersonS -> LMarker '(' Person ')' RMarker
+JuniorS -> LMarker '(' Junior ')' RMarker
+NameS -> LMarker '(' Name3 ')' RMarker
+
+#Roman Numerals ...
+RDigit -> ( 'I' | 'V' | 'X' | 'L' | 'C' | 'D' | 'M' )
+RInterval10 -> ( 'II' | 'III' | 'IV' | 'VI' | 'VII' | 'VIII' | 'IX' )
+#RInterval10 -> ( 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X' )
+RInterval20 -> ( 'XI' | 'XII' | 'XIII' | 'XIV' | 'XV' | 'XVI' | 'XVII' | 'XVIII' | 'XIX' | 'XX' )
+RInterval30 -> ( 'XXI' | 'XXII' | 'XXIII' | 'XXIV' | 'XXV' | 'XXVI' | 'XXVII' | 'XXVIII' | 'XXIX' | 'XXX' )
+RInterval40 -> ( 'XXXI' | 'XXXII' | 'XXXIII' | 'XXXIV' | 'XXXV' | 'XXXVI' | 'XXXVII' | 'XXXVIII' | 'XXXIX' | 'XL' )
+#RInterval50 -> ( 'XLI' | 'XLII' | 'XLIII' | 'XLIV' | 'XLV' | 'XLVI' | 'XLVII' | 'XLVIII' | 'XLIX' | 'L' )
+RInterval50 -> ( 'XLI' | 'XLII' | 'XLIII' | 'XLIV' | 'XLV' | 'XLVI' | 'XLVII' | 'XLVIII' | 'XLIX' )
+RInterval60 -> ( 'LI' | 'LII' | 'LIII' | 'LIV' | 'LV' | 'LVI' | 'LVII' | 'LVIII' | 'LIX' | 'LX' )
+RInterval70 -> ( 'LXI' | 'LXII' | 'LXIII' | 'LXIV' | 'LXV' | 'LXVI' | 'LXVII' | 'LXVIII' | 'LXIX' | 'LXX' )
+RInterval80 -> ( 'LXXI' | 'LXXII' | 'LXXIII' | 'LXXIV' | 'LXXV' | 'LXXVI' | 'LXXVII' | 'LXXVIII' | 'LXXIX' | 'LXXX' )
+RInterval90 -> ( 'LXXXI' | 'LXXXII' | 'LXXXIII' | 'LXXXIV' | 'LXXXV' | 'LXXXVI' | 'LXXXVII' | 'LXXXVIII' | 'LXXXIX' | 'XC' )
+#RInterval100 -> ( 'XCI' | 'XCII' | 'XCIII' | 'XCIV' | 'XCV' | 'XCVI' | 'XCVII' | 'XCVIII' | 'XCIX' | 'C' )
+RInterval100 -> ( 'XCI' | 'XCII' | 'XCIII' | 'XCIV' | 'XCV' | 'XCVI' | 'XCVII' | 'XCVIII' | 'XCIX' )
+RomanS -> LMarker '(' RInterval10 | RInterval20 | RInterval30 | RInterval40 | RInterval50 | RInterval60 | RInterval70 | RInterval80 | RInterval90 | RInterval100 ')' RMarker
+
+#URL and emails
+URLChars -> ( '[a-zA-Z0-9_-]' )
+User -> ( '[a-zA-Z0-9_\.-]' )
+Domain -> ( URLChars+ ( '\.' URLChars+ )* '\.[a-z]{2,4}' )
+URLPath -> ( ( '(?:(?:\/\?)|\/|\?)' '[a-zA-Z0-9_=&\/\.\?#-]'+ '[a-zA-Z0-9_=&\/\?#-]' ) | ( '\/' ) )
+EMailS -> LMarker '(' User+ '@' Domain ')' RMarker
+URLS -> LMarker '(' ( 'http:\/\/' | 'ftp:\/\/' | 'www[^\.]*\.' ) Domain '(?::[0-9]{2,5})?' ( URLPath )? ')' RMarker
+
+#European Commision Directive entity ...
+ECD -> ( '[0-9]+' '\/' '[0-9]+' ( '\/' ( 'CEE' | 'SE' | 'SEE' | 'CE' ) )? )
+ECDS -> LMarker '(' ECD ')' RMarker

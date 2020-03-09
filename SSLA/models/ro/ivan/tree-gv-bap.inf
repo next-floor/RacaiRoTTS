@@ -1,0 +1,27 @@
+QS TWORDS:2 { "*/TWORDS:2/*" }
+QS TWORDS:4 { "*/TWORDS:4/*" }
+QS TWORDS:3 { "*/TWORDS:3/*" }
+QS TWORDS:9 { "*/TWORDS:9/*" }
+QS TWORDS:5 { "*/TWORDS:5/*" }
+QS TWORDS:6 { "*/TWORDS:6/*" }
+QS TWORDS:7 { "*/TWORDS:7/*" }
+QS TWORDS:8 { "*/TWORDS:8/*" }
+QS TWORDS:12 { "*/TWORDS:12/*" }
+QS TWORDS:10 { "*/TWORDS:10/*" }
+QS TWORDS:11 { "*/TWORDS:11/*" }
+
+{*}[2]
+{
+   0 TWORDS:4                                           -1          "gv_bap_1" 
+  -1 TWORDS:3                                           -2          "gv_bap_2" 
+  -2 TWORDS:5                                           -3          "gv_bap_3" 
+  -3 TWORDS:6                                           -4          "gv_bap_4" 
+  -4 TWORDS:9                                           -5          "gv_bap_5" 
+  -5 TWORDS:7                                           -6          "gv_bap_6" 
+  -6 TWORDS:8                                           -7          "gv_bap_7" 
+  -7 TWORDS:2                                           -8          "gv_bap_8" 
+  -8 TWORDS:10                                          -9          "gv_bap_9" 
+  -9 TWORDS:11                                         -10         "gv_bap_10" 
+ -10 TWORDS:12                                          "gv_bap_12"      "gv_bap_11" 
+}
+

@@ -1,0 +1,35 @@
+QS TSYLS:15 { "*/TSYLS:15/*" }
+QS TSYLS:12 { "*/TSYLS:12/*" }
+QS TSYLS:7 { "*/TSYLS:7/*" }
+QS TSYLS:6 { "*/TSYLS:6/*" }
+QS TSYLS:5 { "*/TSYLS:5/*" }
+QS TSYLS:3 { "*/TSYLS:3/*" }
+QS TWORDS:3 { "*/TWORDS:3/*" }
+QS TWORDS:9 { "*/TWORDS:9/*" }
+QS TWORDS:5 { "*/TWORDS:5/*" }
+QS TWORDS:6 { "*/TWORDS:6/*" }
+QS TWORDS:7 { "*/TWORDS:7/*" }
+QS TWORDS:8 { "*/TWORDS:8/*" }
+QS TWORDS:10 { "*/TWORDS:10/*" }
+QS TWORDS:11 { "*/TWORDS:11/*" }
+QS TWORDS:14 { "*/TWORDS:14/*" }
+
+{*}[2]
+{
+   0 TSYLS:5                                            -1          "gv_lf0_1" 
+  -1 TWORDS:6                                           -2          "gv_lf0_2" 
+  -2 TSYLS:6                                            -3          "gv_lf0_3" 
+  -3 TWORDS:9                                           -4         -8    
+  -4 TSYLS:7                                            -5          "gv_lf0_4" 
+  -5 TWORDS:8                                           -6          "gv_lf0_5" 
+  -6 TSYLS:15                                           -7          "gv_lf0_6" 
+  -7 TWORDS:3                                           -9          "gv_lf0_7" 
+  -8 TSYLS:12                                            "gv_lf0_9"       "gv_lf0_8" 
+  -9 TWORDS:5                                          -10         "gv_lf0_10" 
+ -10 TSYLS:3                                           -11         "gv_lf0_11" 
+ -11 TWORDS:11                                         -12         "gv_lf0_12" 
+ -12 TWORDS:7                                          -13         "gv_lf0_13" 
+ -13 TWORDS:14                                         -14         "gv_lf0_14" 
+ -14 TWORDS:10                                          "gv_lf0_16"      "gv_lf0_15" 
+}
+

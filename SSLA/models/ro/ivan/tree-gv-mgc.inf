@@ -1,0 +1,25 @@
+QS TWORDS:2 { "*/TWORDS:2/*" }
+QS TWORDS:4 { "*/TWORDS:4/*" }
+QS TWORDS:3 { "*/TWORDS:3/*" }
+QS TWORDS:9 { "*/TWORDS:9/*" }
+QS TWORDS:5 { "*/TWORDS:5/*" }
+QS TWORDS:6 { "*/TWORDS:6/*" }
+QS TWORDS:7 { "*/TWORDS:7/*" }
+QS TWORDS:8 { "*/TWORDS:8/*" }
+QS TWORDS:10 { "*/TWORDS:10/*" }
+QS TWORDS:11 { "*/TWORDS:11/*" }
+
+{*}[2]
+{
+   0 TWORDS:4                                           -1          "gv_mgc_1" 
+  -1 TWORDS:3                                           -2          "gv_mgc_2" 
+  -2 TWORDS:2                                           -3          "gv_mgc_3" 
+  -3 TWORDS:6                                           -4          "gv_mgc_4" 
+  -4 TWORDS:5                                           -5          "gv_mgc_5" 
+  -5 TWORDS:7                                           -6          "gv_mgc_6" 
+  -6 TWORDS:8                                           -7          "gv_mgc_7" 
+  -7 TWORDS:9                                           -8          "gv_mgc_8" 
+  -8 TWORDS:10                                          -9          "gv_mgc_9" 
+  -9 TWORDS:11                                          "gv_mgc_11"      "gv_mgc_10" 
+}
+

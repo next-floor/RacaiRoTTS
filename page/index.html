@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <title>RacaiRoTTS</title>
+</head>
+<body>
+
+<div class="jumbotron">
+    <h1 class="display-4">Unelte de procesare text și audio</h1>
+    <p>Modular Language Processing for Lightweight Applications (MLPLA) și Speech Synthesis for Lightweight Applications
+        (SSLA) sunt unelte dezvoltate de <a href="http://www.racai.ro/about-us/">ICIA</a></p>
+    <a class="btn btn-primary btn-med" href="http://slp.racai.ro/index.php/source-control/" role="button">Află mai
+        multe</a>
+
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            RACAI - RoTTS
+        </div>
+        <div class="card-body">
+            <form id="usrform" action="/speak" method="post" enctype="multipart/form-data">
+                <h5 class="card-title">Introduceți aici un text, folosind corect diacriticele și apăsați pe
+                    sintetizează.</h5>
+                <div class="form-group">
+                    <label class="card-text" for="form_select">Model voce:</label>
+                    <select class="form-control" id="form_select" name="model_name">
+                        <option>anca</option>
+                        <option>ivan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="use_gv" value="true" id="check_gv">
+                        <label class="form-check-label" for="check_gv">
+                            useGV
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="card-text" for="text_area_input">Text intrare:</label>
+                    <textarea class="form-control" rows="5" id="text_area_input"
+                              name="input_text"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Sintetizează</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery.slim.min.js"></script>
+<script src="/static/popper.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>
