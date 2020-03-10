@@ -27,7 +27,7 @@ scheduler = BackgroundScheduler()
 scheduler.add_job(func=clean_up, trigger='interval', seconds=60 * 30)
 scheduler.start()
 
-app = Flask(__name__, static_url_path='/static', static_folder='page/static')
+app = Flask(__name__, static_url_path='/static', static_folder=os.path.join('page', 'static'))
 lock_obj = Lock()
 
 
@@ -35,11 +35,11 @@ def mlpla_runner(root_name):
     mlpla_run = subprocess.run([
         'java',
         '-jar',
-        'MLPLA/MLPLA.jar',
+        os.path.join('MLPLA', 'MLPLA.jar'),
         '--process',
-        'MLPLA/etc/languagepipe.conf',
-        'MLPLA/models/ro',
-        'out/{}.txt'.format(root_name),
+        os.path.join('MLPLA', 'etc', 'languagepipe.conf'),
+        os.path.join('MLPLA', 'models', 'ro'),
+        os.path.join('out', '{}.txt'.format(root_name)),
     ], capture_output=True)
     return mlpla_run
 
@@ -48,11 +48,11 @@ def ssla_runner(root_name, model_name, use_gv):
     ssla_run = subprocess.run([
         'java',
         '-jar',
-        'SSLA/SSLA.jar',
+        os.path.join('SSLA', 'SSLA.jar'),
         '--synthesize',
-        'SSLA/models/ro/{}'.format(model_name),
-        'out/{}.lab'.format(root_name),
-        'out/{}.wav'.format(root_name),
+        os.path.join('SSLA', 'models', 'ro', '{}'.format(model_name)),
+        os.path.join('out', '{}.lab'.format(root_name)),
+        os.path.join('out', '{}.wav'.format(root_name)),
         use_gv
     ], capture_output=True)
     return ssla_run
@@ -61,7 +61,7 @@ def ssla_runner(root_name, model_name, use_gv):
 def speak_it(input_text, model_name='anca', use_gv='false'):
     root_name = uuid.uuid4().hex
 
-    with open('out/{}.txt'.format(root_name), 'w') as input_for_mlpla:
+    with open(os.path.join('out', '{}.txt'.format(root_name)), 'w') as input_for_mlpla:
         input_for_mlpla.write(input_text)
 
     with lock_obj:
@@ -70,8 +70,8 @@ def speak_it(input_text, model_name='anca', use_gv='false'):
     if mlpla_run.returncode != 0:
         return
 
-    with open('out/{}.lab'.format(root_name), 'wb') as outf_mlpla, \
-            open('out/{}_log.txt'.format(root_name), 'wb') as errf_mlpla:
+    with open(os.path.join('out', '{}.lab'.format(root_name)), 'wb') as outf_mlpla, \
+            open(os.path.join('out', '{}_log.txt'.format(root_name)), 'wb') as errf_mlpla:
         outf_mlpla.write(mlpla_run.stdout)
         errf_mlpla.write(mlpla_run.stderr)
 
@@ -80,7 +80,7 @@ def speak_it(input_text, model_name='anca', use_gv='false'):
     if ssla_run.returncode != 0:
         return
 
-    return 'out/{}.wav'.format(root_name)
+    return os.path.join('out', '{}.wav'.format(root_name))
 
 
 @app.route('/speak', methods=['POST', 'GET'])
@@ -106,12 +106,12 @@ def speak_route():
 
 @app.route('/favicon.ico')
 def favicon_route():
-    return send_file('page/static/favicon.ico')
+    return send_file(os.path.join('page', 'static', 'favicon.ico'))
 
 
 @app.route('/')
 def root_route():
-    return send_file('page/index.html')
+    return send_file(os.path.join('page', 'index.html'))
 
 
 atexit.register(lambda: scheduler.shutdown())
