@@ -10,6 +10,9 @@ from flask import Flask, request, send_file
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+if not os.path.exists('out'):
+    os.makedirs('out')
+
 
 def clean_up():
     print(time.strftime('%A, %d %B %Y %I:%M:%S %p'), 'clean up')
